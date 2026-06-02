@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// category: STARTERS | MAINS | BIRYANI | DESSERTS | DRINKS
+model MenuItem {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  price       Float
+  category    String
+  image       String
+  isVeg       Boolean  @default(true)
+  spicy       Boolean  @default(false)
+  available   Boolean  @default(true)
+  featured    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+}
+
+// status: PENDING | CONFIRMED | CANCELLED
+model Reservation {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String
+  date      DateTime
+  time      String
+  guests    Int
+  notes     String?
+  status    String   @default("PENDING")
+  createdAt DateTime @default(now())
+
+  @@index([date])
+}
